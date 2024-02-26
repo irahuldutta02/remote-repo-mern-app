@@ -35,14 +35,14 @@ export const Sidebar = () => {
           </Link>
         )}
 
-        {authUser && (
+        {
           <Link
             to="/explore"
             className="p-1.5  flex justify-center transition-colors duration-200 rounded-lg hover:bg-gray-800"
           >
             <MdOutlineExplore size={25} />
           </Link>
-        )}
+        }
 
         {!authUser && (
           <Link
