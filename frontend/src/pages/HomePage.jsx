@@ -4,6 +4,7 @@ import { Repos } from "../components/Repos";
 import { Search } from "../components/Search";
 import { Spinner } from "../components/Spinner";
 import { SortRepos } from "../components/sortRepo";
+import { useDebounce } from "../hooks/useDebounce";
 
 import toast from "react-hot-toast";
 
@@ -44,13 +45,15 @@ export const HomePage = () => {
     []
   );
 
+  const debouncedGetUserProfileRepos = useDebounce(getUserProfileRepos, 500);
+
   useEffect(() => {
     getUserProfileRepos();
   }, [getUserProfileRepos]);
 
-  const onSearch = async (e, username) => {
+  const onSearch = (e, username) => {
     e.preventDefault();
-    await getUserProfileRepos(username);
+    debouncedGetUserProfileRepos(username);
   };
 
   const onSort = (sortType) => {

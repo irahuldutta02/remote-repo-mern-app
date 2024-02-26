@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Repos } from "../components/Repos";
 import { Spinner } from "../components/Spinner";
+import { useDebounce } from "../hooks/useDebounce";
 
 export const ExplorePage = () => {
   const [loading, setLoading] = useState(false);
@@ -32,6 +33,8 @@ export const ExplorePage = () => {
     }
   };
 
+  const debouncedCallback = useDebounce(exploreRepos, 500);
+
   useEffect(() => {
     exploreRepos("javascript");
   }, []);
@@ -47,31 +50,31 @@ export const ExplorePage = () => {
             src="/javascript.svg"
             alt="JavaScript"
             className="h-11 sm:h-20 cursor-pointer"
-            onClick={() => exploreRepos("javascript")}
+            onClick={() => debouncedCallback("javascript")}
           />
           <img
             src="/typescript.svg"
             alt="TypeScript logo"
             className="h-11 sm:h-20 cursor-pointer"
-            onClick={() => exploreRepos("typescript")}
+            onClick={() => debouncedCallback("typescript")}
           />
           <img
             src="/c++.svg"
             alt="C++ logo"
             className="h-11 sm:h-20 cursor-pointer"
-            onClick={() => exploreRepos("cpp")}
+            onClick={() => debouncedCallback("cpp")}
           />
           <img
             src="/python.svg"
             alt="Python logo"
             className="h-11 sm:h-20 cursor-pointer"
-            onClick={() => exploreRepos("python")}
+            onClick={() => debouncedCallback("python")}
           />
           <img
             src="/java.svg"
             alt="Java logo"
             className="h-11 sm:h-20 cursor-pointer"
-            onClick={() => exploreRepos("java")}
+            onClick={() => debouncedCallback("java")}
           />
         </div>
         {!loading && !error && (
