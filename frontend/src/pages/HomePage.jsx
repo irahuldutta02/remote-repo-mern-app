@@ -11,34 +11,31 @@ export const HomePage = () => {
   const [userProfile, setUserProfile] = useState(null);
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const [sortType, setSortType] = useState(null);
+  const [error, setError] = useState(null);
 
   const getUserProfileRepos = useCallback(
     async (usernane = "irahuldutta03") => {
+      setError(null);
+      setSortType(null);
+      setRepos([]);
+      setUserProfile(null);
+
       setLoading(true);
       try {
-        const userResponse = await fetch(
-          `https://api.github.com/users/${usernane}`,
-          {
-            headers: {
-              authorization: `token ${
-                import.meta.env.VITE_GITHUB_ACCESS_TOKEN
-              }`,
-            },
-          }
+        const res = await fetch(
+          `${import.meta.env.VITE_HOST_URL}/api/user/profile/${usernane}`
         );
-        const userProfile = await userResponse.json();
+        if (!res.ok) {
+          throw new Error("User Not Found");
+        }
+        const { userProfile, repos } = await res.json();
         setUserProfile(userProfile);
-
-        const repoRes = await fetch(userProfile.repos_url);
-        const repos = await repoRes.json();
         setRepos(repos);
         setLoading(false);
-
-        return { userProfile, repos };
       } catch (error) {
-        toast.error("Error Fetching User Profile");
+        toast.error(error.message);
+        setError(error);
         console.error(error);
       } finally {
         setLoading(false);
@@ -53,22 +50,7 @@ export const HomePage = () => {
 
   const onSearch = async (e, username) => {
     e.preventDefault();
-    setSortType(null);
-    setLoading(true);
-    setRepos([]);
-    setUserProfile(null);
-
-    try {
-      const { userProfile, repos } = await getUserProfileRepos(username);
-      if (userProfile.message !== "Not Found") {
-        setUserProfile(userProfile);
-        setRepos(repos);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-
-    setLoading(false);
+    await getUserProfileRepos(username);
   };
 
   const onSort = (sortType) => {
@@ -97,20 +79,18 @@ export const HomePage = () => {
       <Search onSearch={onSearch} />
       {repos.length > 0 && <SortRepos onSort={onSort} sortType={sortType} />}
       <div className="flex gap-4 flex-col lg:flex-row justify-center items-start">
-        {userProfile?.message !== "Not Found" &&
-          userProfile !== null &&
-          !loading && <ProfileInfo userProfile={userProfile} />}
-        {userProfile?.message !== "Not Found" && !loading && (
-          <Repos repos={repos} />
+        {!error && userProfile !== null && !loading && (
+          <ProfileInfo userProfile={userProfile} />
         )}
+        {!error && !loading && <Repos repos={repos} />}
         {loading && (
           <div className="flex w-full justify-center items-center">
             <Spinner />
           </div>
         )}
-        {userProfile?.message === "Not Found" && (
+        {error && (
           <div className="flex w-full justify-center items-center bg-glass p-8 mt-10 h-96 rounded-lg">
-            <h1 className="text-2xl text-white">User Not Found</h1>
+            <h1 className="text-2xl text-white">{error.message}</h1>
           </div>
         )}
       </div>

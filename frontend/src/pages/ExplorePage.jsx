@@ -7,29 +7,25 @@ export const ExplorePage = () => {
   const [loading, setLoading] = useState(false);
   const [repos, setRepos] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [error, setError] = useState(null);
 
   const exploreRepos = async (language) => {
+    setError(null);
     setLoading(true);
     setRepos([]);
     setSelectedLanguage(language);
 
     try {
-      const res = await fetch(
-        `https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc&per_page=10`,
-        {
-          headers: {
-            authorization: `token ${import.meta.env.VITE_GITHUB_ACCESS_TOKEN}`,
-          },
-        }
-      );
+      const res = await fetch(`http://localhost:5000/api/explore/${language}`);
       if (!res.ok) {
         throw new Error("Failed to fetch");
       }
       const data = await res.json();
-      setRepos(data.items);
+      setRepos(data);
     } catch (error) {
       toast.dismiss();
-      toast.error("error fetching repos");
+      toast.error(error.message);
+      setError(error);
       console.error(error);
     } finally {
       setLoading(false);
@@ -78,23 +74,28 @@ export const ExplorePage = () => {
             onClick={() => exploreRepos("java")}
           />
         </div>
-        {repos.length > 0 && (
+        {!loading && !error && (
           <div className="flex justify-center items-center text-center flex-col gap-4 p-8">
             <h2 className="text-xl font-semibold text-center">
               <span className="bg-blue-100 text-blue-800 font-medium me-2 px-2.5 py-0.5 rounded-full ">
-                {selectedLanguage.toUpperCase()}{" "}
+                {selectedLanguage && selectedLanguage.toUpperCase()}{" "}
               </span>
               Repositories
             </h2>
             <p className="text-sm text-gray-300">with most stars</p>
           </div>
         )}
-        {!loading && repos.length > 0 && (
+        {!loading && !error && repos.length > 0 && (
           <Repos repos={repos} alwaysFullWidth />
         )}
         {loading && (
           <div className="flex mt-4 p-8 w-full justify-center items-center">
             <Spinner />
+          </div>
+        )}
+        {error && (
+          <div className="flex w-full justify-center items-center bg-glass p-8 mt-10 h-96 rounded-lg">
+            <h1 className="text-2xl text-white">{error.message}</h1>
           </div>
         )}
       </div>
