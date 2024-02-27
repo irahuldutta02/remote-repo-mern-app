@@ -8,8 +8,12 @@ function App() {
       <Sidebar />
       <div className="max-w-5xl my-5 text-white mx-auto transition-all duration-300 flex-1">
         <PageRoutes />
-        <Toaster />
       </div>
+      <Toaster
+        toastOptions={{
+          position: "bottom-right",
+        }}
+      />
     </div>
   );
 }
