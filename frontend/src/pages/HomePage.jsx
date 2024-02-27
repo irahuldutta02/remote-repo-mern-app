@@ -85,7 +85,7 @@ export const HomePage = () => {
       {!authUser && (
         <div className="flex w-full justify-center items-center bg-glass p-8 mt-10 h-96 rounded-lg gap-12 flex-col text-center">
           <div className="flex justify-center items-center w-20">
-            <img src="/public/logo.svg" alt="logo" />
+            <img src="/logo.svg" alt="logo" />
           </div>
           <div className="flex justify-center items-center flex-col gap-4">
             <h1 className="text-3xl">Welcome to Remote Repo</h1>
