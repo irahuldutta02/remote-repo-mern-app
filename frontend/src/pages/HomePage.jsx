@@ -8,7 +8,7 @@ import { useDebounce } from "../hooks/useDebounce";
 
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 export const HomePage = () => {
   const [userProfile, setUserProfile] = useState(null);
@@ -19,7 +19,7 @@ export const HomePage = () => {
 
   const { authUser } = useAuthContext();
 
-  const getUserProfileRepos = useCallback(async (usernane) => {
+  const getUserProfileRepos = useCallback(async (usernane = "irahuldutta02") => {
     setError(null);
     setSortType(null);
     setRepos([]);
@@ -49,9 +49,9 @@ export const HomePage = () => {
   const debouncedGetUserProfileRepos = useDebounce(getUserProfileRepos, 500);
 
   useEffect(() => {
-    if (authUser) {
-      getUserProfileRepos(authUser.username);
-    }
+    // if (authUser) {
+      getUserProfileRepos();
+    // }
   }, [getUserProfileRepos, authUser]);
 
   const onSearch = (e, username) => {
@@ -82,7 +82,7 @@ export const HomePage = () => {
 
   return (
     <div className="m-4">
-      {!authUser && (
+      {/* {!authUser && (
         <div className="flex w-full justify-center items-center bg-glass p-8 mt-10 h-96 rounded-lg gap-12 flex-col text-center">
           <div className="flex justify-center items-center w-20">
             <img src="/logo.svg" alt="logo" />
@@ -106,29 +106,26 @@ export const HomePage = () => {
             </Link>
           </div>
         </div>
-      )}
-      {authUser && <Search onSearch={onSearch} />}
-      {authUser && repos.length > 0 && (
-        <SortRepos onSort={onSort} sortType={sortType} />
-      )}
-      {authUser && (
-        <div className="flex gap-4 flex-col lg:flex-row justify-center items-start">
-          {!error && userProfile !== null && !loading && (
-            <ProfileInfo userProfile={userProfile} />
-          )}
-          {!error && !loading && <Repos repos={repos} />}
-          {loading && (
-            <div className="flex w-full justify-center items-center">
-              <Spinner />
-            </div>
-          )}
-          {error && (
-            <div className="flex w-full justify-center items-center bg-glass p-8 mt-10 h-96 rounded-lg">
-              <h1 className="text-2xl text-white">{error.message}</h1>
-            </div>
-          )}
-        </div>
-      )}
+      )} */}
+      <Search onSearch={onSearch} />
+      {repos.length > 0 && <SortRepos onSort={onSort} sortType={sortType} />}
+
+      <div className="flex gap-4 flex-col lg:flex-row justify-center items-start">
+        {!error && userProfile !== null && !loading && (
+          <ProfileInfo userProfile={userProfile} />
+        )}
+        {!error && !loading && <Repos repos={repos} />}
+        {loading && (
+          <div className="flex w-full justify-center items-center">
+            <Spinner />
+          </div>
+        )}
+        {error && (
+          <div className="flex w-full justify-center items-center bg-glass p-8 mt-10 h-96 rounded-lg">
+            <h1 className="text-2xl text-white">{error.message}</h1>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
