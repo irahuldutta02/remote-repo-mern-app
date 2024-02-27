@@ -3,6 +3,6 @@ import { getRepoByLanguage } from "../controllers/explore.controller.js";
 
 const router = express.Router();
 
-router.get("/:language", getRepoByLanguage);
+router.get("/repos/:language", getRepoByLanguage);
 
 export default router;

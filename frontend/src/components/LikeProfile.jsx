@@ -9,10 +9,13 @@ export const LikeProfile = ({ userProfile }) => {
 
   const handleLikeProfile = async () => {
     try {
-      const res = await fetch(`/api/users/like/${userProfile.login}`, {
-        method: "POST",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_HOST_URL}/api/user/like/${userProfile.login}`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
       const data = await res.json();
 
       if (data.error) throw new Error(data.error);

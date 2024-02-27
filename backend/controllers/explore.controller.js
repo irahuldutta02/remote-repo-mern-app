@@ -1,5 +1,6 @@
 export const getRepoByLanguage = async (req, res) => {
   const { language } = req.params;
+  console.log(language);
   try {
     const response = await fetch(
       `https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc`,

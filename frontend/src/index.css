@@ -33,6 +33,11 @@ body {
   background: #242424;
 }
 
+.customTable::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
 @layer components {
   .bg-glass {
     @apply bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 

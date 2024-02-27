@@ -17,7 +17,9 @@ export const ExplorePage = () => {
     setSelectedLanguage(language);
 
     try {
-      const res = await fetch(`http://localhost:5000/api/explore/${language}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_HOST_URL}/api/explore/repos/${language}`
+      );
       if (!res.ok) {
         throw new Error("Failed to fetch");
       }
