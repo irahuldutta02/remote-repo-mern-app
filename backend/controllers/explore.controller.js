@@ -1,3 +1,5 @@
+import { GITHUB_ACCESS_TOKEN } from "../config/server.config.js";
+
 export const getRepoByLanguage = async (req, res) => {
   const { language } = req.params;
   console.log(language);
@@ -6,7 +8,7 @@ export const getRepoByLanguage = async (req, res) => {
       `https://api.github.com/search/repositories?q=language:${language}&sort=stars&order=desc`,
       {
         headers: {
-          authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
+          authorization: `token ${GITHUB_ACCESS_TOKEN}`,
         },
       }
     );

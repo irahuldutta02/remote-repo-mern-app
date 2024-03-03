@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { VITE_HOST_URL } from "../config/server.config";
 
 export const AuthContext = createContext();
 
@@ -17,7 +18,7 @@ export const AuthContextProvider = ({ children }) => {
       setLoading(true);
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_HOST_URL}/api/auth/check`,
+          `${VITE_HOST_URL}/api/auth/check`,
           { credentials: "include" }
         );
         const data = await res.json();

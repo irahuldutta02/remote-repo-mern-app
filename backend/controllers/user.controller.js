@@ -1,3 +1,4 @@
+import { GITHUB_ACCESS_TOKEN } from "../config/server.config.js";
 import User from "../models/user.model.js";
 
 export const getUserProfileAndRepos = async (req, res) => {
@@ -8,14 +9,14 @@ export const getUserProfileAndRepos = async (req, res) => {
       `https://api.github.com/users/${username}`,
       {
         headers: {
-          authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
+          authorization: `token ${GITHUB_ACCESS_TOKEN}`,
         },
       }
     );
     const userProfile = await userResponse.json();
     const repoRes = await fetch(userProfile.repos_url, {
       headers: {
-        authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
+        authorization: `token ${GITHUB_ACCESS_TOKEN}`,
       },
     });
     const repos = await repoRes.json();
@@ -36,7 +37,7 @@ export const likeProfile = async (req, res) => {
       return res.status(404).json({ error: "User not member of our app" });
     }
 
-    if (userToLike.likedProfiles.includes(userToLike.username)) {
+    if (user.likedProfiles.includes(userToLike.username)) {
       return res.status(400).json({ error: "Profile already liked" });
     }
 

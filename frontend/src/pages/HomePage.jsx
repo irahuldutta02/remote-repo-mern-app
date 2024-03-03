@@ -8,7 +8,8 @@ import { useDebounce } from "../hooks/useDebounce";
 
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
-// import { Link } from "react-router-dom";
+import { VITE_HOST_URL } from "../config/server.config";
+import { Link } from "react-router-dom";
 
 export const HomePage = () => {
   const [userProfile, setUserProfile] = useState(null);
@@ -19,7 +20,7 @@ export const HomePage = () => {
 
   const { authUser } = useAuthContext();
 
-  const getUserProfileRepos = useCallback(async (usernane = "irahuldutta02") => {
+  const getUserProfileRepos = useCallback(async (usernane) => {
     setError(null);
     setSortType(null);
     setRepos([]);
@@ -27,9 +28,7 @@ export const HomePage = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_HOST_URL}/api/user/profile/${usernane}`
-      );
+      const res = await fetch(`${VITE_HOST_URL}/api/user/profile/${usernane}`);
       if (!res.ok) {
         throw new Error("User Not Found");
       }
@@ -49,9 +48,9 @@ export const HomePage = () => {
   const debouncedGetUserProfileRepos = useDebounce(getUserProfileRepos, 500);
 
   useEffect(() => {
-    // if (authUser) {
-      getUserProfileRepos();
-    // }
+    if (authUser) {
+      getUserProfileRepos(authUser.username);
+    }
   }, [getUserProfileRepos, authUser]);
 
   const onSearch = (e, username) => {
@@ -82,14 +81,16 @@ export const HomePage = () => {
 
   return (
     <div className="m-4">
-      {/* {!authUser && (
+      {!authUser && (
         <div className="flex w-full justify-center items-center bg-glass p-8 mt-10 h-96 rounded-lg gap-12 flex-col text-center">
           <div className="flex justify-center items-center w-20">
             <img src="/logo.svg" alt="logo" />
           </div>
           <div className="flex justify-center items-center flex-col gap-4">
             <h1 className="text-3xl">Welcome to Remote Repo</h1>
-            <p className="text-xl text-white">Please login or signup to continue</p>
+            <p className="text-xl text-white">
+              Please login or signup to continue
+            </p>
           </div>
           <div className="flex justify-center items-center gap-4">
             <Link
@@ -106,26 +107,30 @@ export const HomePage = () => {
             </Link>
           </div>
         </div>
-      )} */}
-      <Search onSearch={onSearch} />
-      {repos.length > 0 && <SortRepos onSort={onSort} sortType={sortType} />}
+      )}
+      {authUser && <Search onSearch={onSearch} />}
+      {authUser && repos.length > 0 && (
+        <SortRepos onSort={onSort} sortType={sortType} />
+      )}
 
-      <div className="flex gap-4 flex-col lg:flex-row justify-center items-start">
-        {!error && userProfile !== null && !loading && (
-          <ProfileInfo userProfile={userProfile} />
-        )}
-        {!error && !loading && <Repos repos={repos} />}
-        {loading && (
-          <div className="flex w-full justify-center items-center">
-            <Spinner />
-          </div>
-        )}
-        {error && (
-          <div className="flex w-full justify-center items-center bg-glass p-8 mt-10 h-96 rounded-lg">
-            <h1 className="text-2xl text-white">{error.message}</h1>
-          </div>
-        )}
-      </div>
+      {authUser && (
+        <div className="flex gap-4 flex-col lg:flex-row justify-center items-start">
+          {!error && userProfile !== null && !loading && (
+            <ProfileInfo userProfile={userProfile} />
+          )}
+          {!error && !loading && <Repos repos={repos} />}
+          {loading && (
+            <div className="flex w-full justify-center items-center">
+              <Spinner />
+            </div>
+          )}
+          {error && (
+            <div className="flex w-full justify-center items-center bg-glass p-8 mt-10 h-96 rounded-lg">
+              <h1 className="text-2xl text-white">{error.message}</h1>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

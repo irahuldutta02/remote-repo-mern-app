@@ -1,6 +1,7 @@
 import { MdLogout } from "react-icons/md";
 import { useAuthContext } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
+import { VITE_HOST_URL } from "../config/server.config";
 
 export const Logout = () => {
   const { authUser, setAuthUser } = useAuthContext();
@@ -8,7 +9,7 @@ export const Logout = () => {
   const handleLogoutFunction = async () => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_HOST_URL}/api/auth/logout`,
+        `${VITE_HOST_URL}/api/auth/logout`,
         {
           credentials: "include",
         }

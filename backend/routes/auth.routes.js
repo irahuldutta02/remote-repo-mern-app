@@ -1,7 +1,6 @@
 import express from "express";
 import passport from "passport";
-import dotenv from "dotenv";
-dotenv.config();
+import { CLIENT_BASE_URL } from "../config/server.config.js";
 
 const router = express.Router();
 
@@ -13,10 +12,10 @@ router.get(
 router.get(
   "/github/callback",
   passport.authenticate("github", {
-    failureRedirect: process.env.CLIENT_BASE_URL + "/login",
+    failureRedirect: CLIENT_BASE_URL + "/login",
   }),
   function (req, res) {
-    res.redirect(process.env.CLIENT_BASE_URL);
+    res.redirect(CLIENT_BASE_URL);
   }
 );
 

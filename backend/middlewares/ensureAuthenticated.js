@@ -1,9 +1,8 @@
-import dotenv from "dotenv";
-dotenv.config();
+import { CLIENT_BASE_URL } from "../config/server.config.js";
 
 export async function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect(process.env.CLIENT_BASE_URL + "/login");
+  res.redirect(CLIENT_BASE_URL + "/login");
 }
