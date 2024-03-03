@@ -5,16 +5,17 @@ import { LoginPage } from "../pages/LoginPage";
 import { SignUpPage } from "../pages/SignUpPage";
 import { ExplorePage } from "../pages/ExplorePage";
 import { LikesPage } from "../pages/LikesPage";
+import { UserPage } from "../pages/UserPage";
 
 export const PageRoutes = () => {
   const { authUser, loading } = useAuthContext();
 
   if (loading) return null;
 
-
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/:username" element={<UserPage />} />
       <Route
         path="/login"
         element={!authUser ? <LoginPage /> : <Navigate to={"/"} />}

@@ -1,4 +1,4 @@
-export const SortRepos = ({ onSort, sortType }) => {
+export const SortRepo = ({ onSort, sortType }) => {
   const BUTTONS = [
     { type: "recent", text: "Most Recent" },
     { type: "stars", text: "Most Stars" },
