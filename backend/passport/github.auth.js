@@ -4,7 +4,6 @@ import { Strategy as GitHubStrategy } from "passport-github2";
 import {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
-  SERVER_BASE_URL,
 } from "../config/server.config.js";
 import User from "../models/user.model.js";
 
@@ -25,7 +24,7 @@ passport.use(
     {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: `${SERVER_BASE_URL}/api/auth/github/callback`,
+      callbackURL: `https://remote-repo-mern-app.onrender.com/api/auth/github/callback`,
     },
     async function (accessToken, refreshToken, profile, done) {
       const user = await User.findOne({ username: profile.username });

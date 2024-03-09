@@ -22,12 +22,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use(
-//   cors({
-//     origin: CLIENT_BASE_URL,
-//     credentials: true,
-//   })
-// );
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
