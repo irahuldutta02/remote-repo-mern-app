@@ -6,7 +6,6 @@ import { Repos } from "../components/Repos";
 import { Search } from "../components/Search";
 import { Spinner } from "../components/Spinner";
 import { SortRepo } from "../components/sortRepo";
-import { VITE_HOST_URL } from "../config/server.config";
 
 export const UserPage = () => {
   const [userProfile, setUserProfile] = useState(null);
@@ -26,7 +25,7 @@ export const UserPage = () => {
     setUserProfile(null);
     setLoading(true);
     try {
-      const res = await fetch(`${VITE_HOST_URL}/api/user/profile/${usernane}`);
+      const res = await fetch(`/api/user/profile/${usernane}`);
       if (!res.ok) {
         throw new Error("User Not Found");
       }

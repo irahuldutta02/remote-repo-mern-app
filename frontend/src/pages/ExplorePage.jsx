@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import { Repos } from "../components/Repos";
 import { Spinner } from "../components/Spinner";
 import { useDebounce } from "../hooks/useDebounce";
-import { VITE_HOST_URL } from "../config/server.config";
 
 export const ExplorePage = () => {
   const [loading, setLoading] = useState(false);
@@ -19,7 +18,7 @@ export const ExplorePage = () => {
 
     try {
       const res = await fetch(
-        `${VITE_HOST_URL}/api/explore/repos/${language}`
+        `/api/explore/repos/${language}`
       );
       if (!res.ok) {
         throw new Error("Failed to fetch");

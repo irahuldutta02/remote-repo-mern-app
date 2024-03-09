@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import { formatDate } from "../utils/functions";
 import { FaHeart } from "react-icons/fa";
 import { Spinner } from "../components/Spinner";
-import { VITE_HOST_URL } from "../config/server.config";
 
 export const LikesPage = () => {
   const [likes, setLikes] = useState([]);
@@ -15,7 +14,7 @@ export const LikesPage = () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `${VITE_HOST_URL}/api/user/likes`,
+          `/api/user/likes`,
           {
             credentials: "include",
           }

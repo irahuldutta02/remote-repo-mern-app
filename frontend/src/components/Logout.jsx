@@ -1,6 +1,5 @@
 import { toast } from "react-hot-toast";
 import { MdLogout } from "react-icons/md";
-import { VITE_HOST_URL } from "../config/server.config";
 import { useAuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -10,7 +9,7 @@ export const Logout = () => {
 
   const handleLogoutFunction = async () => {
     try {
-      const res = await fetch(`${VITE_HOST_URL}/api/auth/logout`, {
+      const res = await fetch(`/api/auth/logout`, {
         credentials: "include",
       });
       const data = await res.json();

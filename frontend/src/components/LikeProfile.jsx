@@ -1,7 +1,6 @@
+import toast from "react-hot-toast";
 import { FaHeart } from "react-icons/fa";
 import { useAuthContext } from "../context/AuthContext";
-import toast from "react-hot-toast";
-import { VITE_HOST_URL } from "../config/server.config";
 
 export const LikeProfile = ({ userProfile }) => {
   const { authUser } = useAuthContext();
@@ -10,13 +9,10 @@ export const LikeProfile = ({ userProfile }) => {
 
   const handleLikeProfile = async () => {
     try {
-      const res = await fetch(
-        `${VITE_HOST_URL}/api/user/like/${userProfile.login}`,
-        {
-          method: "POST",
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`/api/user/like/${userProfile.login}`, {
+        method: "POST",
+        credentials: "include",
+      });
       const data = await res.json();
 
       if (data.error) throw new Error(data.error);

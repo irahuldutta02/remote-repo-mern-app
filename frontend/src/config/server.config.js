@@ -1,1 +1,0 @@
-export const VITE_HOST_URL = import.meta.env.VITE_HOST_URL;
