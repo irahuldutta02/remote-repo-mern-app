@@ -1,6 +1,6 @@
 # remote-repo-mern-app
 
-## Deployment
+## Deployment Information
 
 ### [Deployed at Render 🔗](https://remote-repo-mern-app.onrender.com/)
 
