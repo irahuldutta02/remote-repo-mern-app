@@ -7,3 +7,4 @@ export const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 export const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 export const CLIENT_BASE_URL = process.env.CLIENT_BASE_URL;
 export const GITHUB_ACCESS_TOKEN = process.env.GITHUB_ACCESS_TOKEN;
+export const API_URL = process.env.API_URL;

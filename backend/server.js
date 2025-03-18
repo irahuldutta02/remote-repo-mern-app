@@ -22,6 +22,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get("/api/check", (req, res) => {
+  return res.status(200).json({ status: 200, message: "Server is running" });
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
