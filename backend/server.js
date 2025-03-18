@@ -10,7 +10,9 @@ import session from "express-session";
 import passport from "passport";
 import { PORT } from "./config/server.config.js";
 import "./passport/github.auth.js";
+import job from "./jobs/cron.js";
 
+job.start();
 const app = express();
 const __dirname = path.resolve();
 
